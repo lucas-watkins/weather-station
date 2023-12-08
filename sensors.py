@@ -1,7 +1,6 @@
-import board
 import adafruit_dht
+import board
 import digitalio
-import time
 
 
 class Sensor:
