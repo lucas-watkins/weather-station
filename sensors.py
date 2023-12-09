@@ -1,6 +1,7 @@
 import adafruit_dht
 import board
 import digitalio
+import microcontroller.pin
 
 
 class Sensor:
@@ -13,9 +14,9 @@ class Sensor:
 
         # define water sensor pins, GP15 and GP14 are currently placeholders and can will be changed once I get physical
         # access to the hardware
-        self.wsensor_power = digitalio.DigitalInOut(board.GP15)
+        self.wsensor_power = digitalio.DigitalInOut(microcontroller.pin.GPIO_14)
         self.wsensor_power.direction = digitalio.Direction.OUTPUT
-        self.wsensor_signal = digitalio.DigitalInOut(board.GP14)
+        self.wsensor_signal = digitalio.DigitalInOut(microcontroller.pin.GPIO_15)
         self.wsensor_signal.direction = digitalio.Direction.INPUT
         # to read water sensor set self.wsensor_power = true and check self.wsensor_signal
 
