@@ -19,8 +19,6 @@ class Sensor:
         self.dht22 = adafruit_dht.DHT22(board.GP16)
 
         # Water Sensor
-        # self.water_sensor.power = dio.DigitalInOut(board.GP14)
-        # self.water_sensor.power.direction = dio.Direction.OUTPUT
 
         self.water_sensor.signal = dio.DigitalInOut(board.GP15)
         self.water_sensor.signal.direction = dio.Direction.INPUT
