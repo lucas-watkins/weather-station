@@ -9,7 +9,7 @@ class Sensor:
     # variables 
     dht22 = None
 
-    class water_sensor:
+    class WaterSensor:
         power = None
         signal = None
 
