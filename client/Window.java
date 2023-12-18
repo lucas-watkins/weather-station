@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.net.URI;
 
 
 // I would like to apologize to the Java community for the following code - Lucas
@@ -21,19 +22,28 @@ public class Window implements ActionListener{
     // Weather Box
     public static Box weatherBox = Box.createVerticalBox();
 
+    // Controls box
+    Box controlsBox = Box.createVerticalBox();
+
+    // Menu Bar components
+    JMenuBar menuBar = new JMenuBar();
+    JMenu file = new JMenu("File");
+    JMenuItem about = new JMenuItem("About");
+
     public Window(){
         //Set default close operation
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //Create Boxes
-        Box horizontalBox = Box.createHorizontalBox();
+        //set frame layout
+        frame.setLayout(new GridLayout());
 
-        //Add components to weather box
-        weatherBox.add(new JLabel("Weather:\n"));
+        //Add components to weather box and set layout
+        weatherBox.add(Box.createVerticalStrut(10));
+        weatherBox.add(new JLabel("Weather:\n"), BorderLayout.NORTH);
 
-        //Add components to horizontal box
-        horizontalBox.add(updateBtn, BorderLayout.WEST);
-        horizontalBox.add(weatherBox, BorderLayout.CENTER);
+        //add components to controls box
+        controlsBox.add(Box.createVerticalStrut(10));
+        controlsBox.add(updateBtn, BorderLayout.NORTH);
 
         // register action listener
         updateBtn.addActionListener(this);
@@ -41,8 +51,16 @@ public class Window implements ActionListener{
         // set title
         frame.setTitle(Window.title);
 
+        //Load Menu Bar
+        menuBar.add(file);
+        about.addActionListener(this);
+        file.add(about);
+
         // Add components
-        frame.add(horizontalBox, BorderLayout.WEST);
+        frame.add(controlsBox, BorderLayout.WEST);
+        frame.add(weatherBox, BorderLayout.WEST);
+        frame.setJMenuBar(menuBar);
+
         frame.setVisible(true);
         frame.setSize(500, 250);
 
@@ -51,6 +69,17 @@ public class Window implements ActionListener{
     public void actionPerformed(ActionEvent e){
         if (e.getSource().equals(updateBtn)){
             WeatherStationClient.GetWeather.getWeather();
+        }
+        if (e.getSource().equals(about)){
+            int option = JOptionPane.showConfirmDialog(null, "Weather Station Client\nVisit Github Repository?", title, JOptionPane.YES_NO_OPTION);
+            if (option == 0){
+                try{
+                    Desktop.getDesktop().browse(new URI("https://github.com/lucas-watkins/weather-station"));
+                } catch (Exception f)
+                {
+                    f.printStackTrace();
+                }
+            }
         }
     }
 

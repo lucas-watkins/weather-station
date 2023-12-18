@@ -14,7 +14,7 @@ public class GetWeather {
 
    // Getting weather from ip specified in Window.java and writing it to a dictionary named weather in the same file
    // Shows error when unable to get weather
-   public static boolean getWeather(){
+   public static void getWeather(){
         try {
              URL url = new URL(WeatherStationClient.Window.serverIP);
              Scanner scanner = new Scanner(url.openStream());
@@ -25,15 +25,16 @@ public class GetWeather {
              JSONObject weather = (JSONObject) obj;
 
              weatherBox.removeAll();
+             weatherBox.add(Box.createVerticalStrut(10));
              weatherBox.add(new JLabel("Weather:\n"));
 
              for( int i = 0; i < weather.size(); i++){
                   switch (i) {
                        case 0:
-                            weatherBox.add(new JLabel("\nTemperature: " + weather.get("temp") + "°F"));
+                            weatherBox.add(new JLabel("Temperature: " + weather.get("temp") + "°F\n"));
                             break;
                        case 1:
-                            weatherBox.add(new JLabel("\nHumidity: " + weather.get("humidity") + "%"));
+                            weatherBox.add(new JLabel("Humidity: " + weather.get("humidity") + "%\n"));
                             break;
                        default:
                             JOptionPane.showMessageDialog(null, "Array Out of Range Error, Check for a client update! \nArray Length: " + weather.size(), WeatherStationClient.Window.title, JOptionPane.INFORMATION_MESSAGE);
@@ -42,10 +43,8 @@ public class GetWeather {
              SwingUtilities.updateComponentTreeUI(WeatherStationClient.Window.frame);
 
         } catch (Exception e){
-             JOptionPane.showMessageDialog(null, "Unable to get Weather", WeatherStationClient.Window.title, JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(null, "Unable to get weather, Weather Station did not respond", WeatherStationClient.Window.title, JOptionPane.ERROR_MESSAGE);
              e.printStackTrace();
         }
-
-        return true;
    }
 }
