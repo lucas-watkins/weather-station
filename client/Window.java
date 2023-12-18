@@ -7,10 +7,11 @@ import java.awt.event.ActionEvent;
 import java.net.URI;
 
 
+
 // I would like to apologize to the Java community for the following code - Lucas
 public class Window implements ActionListener{
-    public static final String serverIP = "http://localhost:8080";
-
+    public static WeatherStationClient.DatLoader datFile = new WeatherStationClient.DatLoader("serverip.dat");
+    public static String serverIP;
     static final String title = "WS Client";
 
     // Main frame
@@ -29,8 +30,10 @@ public class Window implements ActionListener{
     JMenuBar menuBar = new JMenuBar();
     JMenu file = new JMenu("File");
     JMenuItem about = new JMenuItem("About");
+    JMenuItem updateServerIP = new JMenuItem("Update Weather Station IP");
 
     public Window(){
+
         //Set default close operation
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -55,6 +58,8 @@ public class Window implements ActionListener{
         menuBar.add(file);
         about.addActionListener(this);
         file.add(about);
+        updateServerIP.addActionListener(this);
+        file.add(updateServerIP);
 
         // Add components
         frame.add(controlsBox, BorderLayout.WEST);
@@ -71,7 +76,7 @@ public class Window implements ActionListener{
             WeatherStationClient.GetWeather.getWeather();
         }
         if (e.getSource().equals(about)){
-            int option = JOptionPane.showConfirmDialog(null, "Weather Station Client\nVisit Github Repository?", title, JOptionPane.YES_NO_OPTION);
+            int option = JOptionPane.showConfirmDialog(null, "Weather Station Client vVersionHere\nWeather Station IP: "+datFile.getContents()+"\nVisit Github Repository?", title, JOptionPane.YES_NO_OPTION);
             if (option == 0){
                 try{
                     Desktop.getDesktop().browse(new URI("https://github.com/lucas-watkins/weather-station"));
@@ -79,6 +84,12 @@ public class Window implements ActionListener{
                 {
                     f.printStackTrace();
                 }
+            }
+        }
+        if (e.getSource().equals(updateServerIP)){
+            String newIP = JOptionPane.showInputDialog(null, "Enter Weather Station IP:");
+            if (newIP != null && !newIP.isBlank()) {
+                datFile.writeContents("http://"+newIP);
             }
         }
     }

@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.net.URL;
 import java.util.Scanner;
 
+import static WeatherStationClient.Window.datFile;
 import static WeatherStationClient.Window.weatherBox;
 
 public class GetWeather {
@@ -16,7 +17,7 @@ public class GetWeather {
    // Shows error when unable to get weather
    public static void getWeather(){
         try {
-             URL url = new URL(WeatherStationClient.Window.serverIP);
+             URL url = new URL(datFile.getContents());
              Scanner scanner = new Scanner(url.openStream());
 
              JSONParser parser = new JSONParser();
