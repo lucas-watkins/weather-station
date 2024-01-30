@@ -1,6 +1,6 @@
 import board
 import adafruit_dht
-import digitalio as dio
+from analogio import AnalogIn
 
 
 class Sensor:
@@ -8,20 +8,20 @@ class Sensor:
 
     # variables 
     dht22 = None
+    ws_pin = None
+    
 
-    class WaterSensor:
-        power = None
-        signal = None
+
 
     # initialize sensor variables
     def __init__(self) -> None:
         # DHT 22
         self.dht22 = adafruit_dht.DHT22(board.GP16)
 
-        # Water Sensor
+        # Water Sensor analog in pin to get voltage
 
-        self.water_sensor.signal = dio.DigitalInOut(board.GP15)
-        self.water_sensor.signal.direction = dio.Direction.INPUT
+        self.ws_pin = AnalogIn(board.GP26)
+        
 
     # returns dictionary of all sensor values
     def get_dict(self) -> dict:
@@ -37,4 +37,8 @@ class Sensor:
 
     # get water sensor state
     def get_water_sensor(self) -> bool:
-        return self.water_sensor.signal.value
+
+        # if the value is greater than 1000 it's probably raining and this will return true if
+        # this is the case. 
+
+        return (lambda: True if self.ws_pin.value > 1000 else False)()
