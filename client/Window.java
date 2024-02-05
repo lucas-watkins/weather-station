@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.net.URI;
 
 
-
 // I would like to apologize to the Java community for the following code - Lucas
 public class Window implements ActionListener{
     public static WeatherStationClient.DatLoader datFile = new WeatherStationClient.DatLoader("serverip.dat");
