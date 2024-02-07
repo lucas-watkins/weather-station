@@ -34,9 +34,9 @@ class HttpServer:
         ''' Create structure for HTTP server '''
 
         # create socketpool and socket
-        self.socketpool = socketpool.SocketPool(wifi.radio)
-        self.socket = self.socketpool.socket(socketpool.SocketPool.AF_INET, socketpool.SocketPool.SOCK_STREAM)
-        self.socket.settimeout(None)
+        self.socket_pool = socketpool.SocketPool(wifi.radio)
+        self.socket = self.socket_pool.socket(socketpool.SocketPool.AF_INET, socketpool.SocketPool.SOCK_STREAM)
+        self.socket.settimeout(1)
         # bind socket to address
         self.socket.bind(('0.0.0.0', port))
         
@@ -45,20 +45,23 @@ class HttpServer:
     
     def server_thread(self, source: function) -> None:
         ''' Main thread for http server which takes a function as input returns the return value of said function
-        upon recieving a request '''
+        upon receiving a request '''
         # wait for connections and accept with connection object
-        connection, client_addr = self.socket.accept()
+        try:
+            connection, client_addr = self.socket.accept()
 
-        # create empty byte area with 256 bytes as buffer
-        array = bytearray(265)
+            # create empty byte area with 256 bytes as buffer
+            array = bytearray(265)
 
-        # save into array
-        connection.recv_into(array, 256)
-        print(f'New Connection --> {client_addr[0]}')
-        
-        # reply to request with a string
-        connection.sendall(f'HTTP/1.0 200 OK\n\n{source()}'.encode("utf-8"))
+            # save into array
+            connection.recv_into(array, 256)
+            print(f'New Connection --> {client_addr[0]}')
+            
+            # reply to request with a string
+            connection.sendall(f'HTTP/1.0 200 OK\n\n{source()}'.encode("utf-8"))
 
-        
-        # close connection to accept next one
-        connection.close()
+            
+            # close connection to accept next one
+            connection.close()
+        except OSError:
+            pass
