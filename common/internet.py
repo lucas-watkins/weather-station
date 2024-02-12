@@ -3,6 +3,8 @@ import os
 import ipaddress
 import socketpool
 
+from common.colors import Colors
+
 
 class Internet:
     # variables
@@ -56,7 +58,7 @@ class HttpServer:
 
             # save into array
             connection.recv_into(array, 256)
-            print(f'New Connection --> {client_addr[0]}')
+            print(f'{Colors.BLUE}[LOG]{Colors.END} New Connection --> {Colors.BOLD}{client_addr[0]}{Colors.END}')
 
             # reply to request with a string
             connection.sendall(f'HTTP/1.0 200 OK\n\n{source()}'.encode("utf-8"))
