@@ -3,6 +3,9 @@ import os
 import ipaddress
 import socketpool
 
+from common.colors import Colors
+
+
 class Internet:
     # variables
 
@@ -18,17 +21,17 @@ class Internet:
 
         self.ssid, self.password = os.getenv("WIFI_SSID"), os.getenv("WIFI_PASS")
 
-        wifi.radio.connect(ssid = self.ssid, password = self.password)
+        wifi.radio.connect(ssid=self.ssid, password=self.password)
         self.ip_address = wifi.radio.ipv4_address
 
     def ping(self) -> float:
         ''' Ping cloudflare to test connectivity '''
-        return wifi.radio.ping(ip = ipaddress.IPv4Address('1.1.1.1'))
-    
+        return wifi.radio.ping(ip=ipaddress.IPv4Address('1.1.1.1'))
+
+
 class HttpServer:
     socketpool = None
     socket = None
-
 
     def __init__(self, port: int) -> None:
         ''' Create structure for HTTP server '''
@@ -39,10 +42,10 @@ class HttpServer:
         self.socket.settimeout(1)
         # bind socket to address
         self.socket.bind(('0.0.0.0', port))
-        
+
         # listen with socket
         self.socket.listen(1)
-    
+
     def server_thread(self, source: function) -> None:
         ''' Main thread for http server which takes a function as input returns the return value of said function
         upon receiving a request '''
@@ -55,12 +58,11 @@ class HttpServer:
 
             # save into array
             connection.recv_into(array, 256)
-            print(f'New Connection --> {client_addr[0]}')
-            
+            print(f'{Colors.BLUE}[LOG]{Colors.END} New Connection --> {Colors.BOLD}{client_addr[0]}{Colors.END}')
+
             # reply to request with a string
             connection.sendall(f'HTTP/1.0 200 OK\n\n{source()}'.encode("utf-8"))
 
-            
             # close connection to accept next one
             connection.close()
         except OSError:
