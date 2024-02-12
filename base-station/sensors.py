@@ -9,9 +9,6 @@ class Sensor:
     # variables 
     dht22 = None
     ws_pin = None
-    
-
-
 
     # initialize sensor variables
     def __init__(self) -> None:
@@ -21,7 +18,6 @@ class Sensor:
         # Water Sensor analog in pin to get voltage
 
         self.ws_pin = AnalogIn(board.GP26)
-        
 
     # returns dictionary of all sensor values
     def get_dict(self) -> dict:
@@ -37,7 +33,6 @@ class Sensor:
 
     # get water sensor state
     def get_water_sensor(self) -> bool:
-
         # if the value is greater than 1000 it's probably raining and this will return true if
         # this is the case. 
 
