@@ -1,3 +1,4 @@
 remount_circuitpy.sh
 .idea
 settings.toml
+.DS_Store
