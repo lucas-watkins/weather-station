@@ -24,15 +24,13 @@ running = True
 # log weather function which logs weather once every 10 seconds
 @asynchronous.delay(5)
 def log():
-    weather = sensor.get_dict()
-    for key in weather:
-        print(key[0].upper() + key[1:], '-->', weather[key])
+    print(sensor.get_all())
 
 
 # mainloop
 while running:
     try:
-        httpServer.server_thread(sensor.get_dict)
+        httpServer.server_thread(sensor.get_all)
         log()
 
     except KeyboardInterrupt:

@@ -17,10 +17,10 @@ class Sensor:
         self.ow_devices = self.ow_bus.scan()
         self.water_temp_sensor = DS18X20(self.ow_bus, self.ow_devices[0])
     
-    # returns dictionary of all sensor values
-    def get_dict(self) -> dict:
-        return {'water temp': self.get_water_temperature()}
+    # returns string of all sensor values
+    def get_all(self) -> str:
+        return f'Water Temperature: {self.get_water_temperature()}°F'
 
-    # get temperature from ds18x20 tied to GP22 in euro units
+    # get temperature from ds18x20 tied to GP22 in freedom units
     def get_water_temperature(self) -> float:
-        return round(self.water_temp_sensor.temperature, 2)
+        return round(self.water_temp_sensor.temperature * (9/5) + 32, 2)
