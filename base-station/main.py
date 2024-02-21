@@ -1,4 +1,4 @@
-from common.colors import Colors
+from colors import Colors
 from sensors import Sensor
 import supervisor
 from internet import Internet, HttpServer

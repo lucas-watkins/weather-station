@@ -2,7 +2,7 @@ package WeatherStationClient;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
+import com.roxstudio.utils.CUrl;
 import javax.swing.*;
 import java.net.URL;
 import java.util.Scanner;
@@ -17,30 +17,12 @@ public class GetWeather {
    // Shows error when unable to get weather
    public static void getWeather(){
         try {
-             URL url = new URL(datFile.getContents());
-             Scanner scanner = new Scanner(url.openStream());
-
-             JSONParser parser = new JSONParser();
-             Object obj = parser.parse(scanner.next());
-
-             JSONObject weather = (JSONObject) obj;
-
+             CUrl curl = new CUrl(datFile.getContents());
+             String weather = new String(curl.exec());
              weatherBox.removeAll();
-             weatherBox.add(Box.createVerticalStrut(10));
              weatherBox.add(new JLabel("Weather:\n"));
+             weatherBox.add(new JLabel(weather));
 
-             for( int i = 0; i < weather.size(); i++){
-                  switch (i) {
-                       case 0:
-                            weatherBox.add(new JLabel("Temperature: " + weather.get("temp") + "°F\n"));
-                            break;
-                       case 1:
-                            weatherBox.add(new JLabel("Humidity: " + weather.get("humidity") + "%\n"));
-                            break;
-                       default:
-                            JOptionPane.showMessageDialog(null, "Array Out of Range Error, Check for a client update! \nArray Length: " + weather.size(), WeatherStationClient.Window.title, JOptionPane.INFORMATION_MESSAGE);
-                  }
-             }
              SwingUtilities.updateComponentTreeUI(WeatherStationClient.Window.frame);
 
         } catch (Exception e){

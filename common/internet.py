@@ -3,7 +3,7 @@ import os
 import ipaddress
 import socketpool
 
-from common.colors import Colors
+from colors import Colors
 
 
 class Internet:

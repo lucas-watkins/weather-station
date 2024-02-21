@@ -5,12 +5,12 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.net.URI;
+import WeatherStationClient.GetWeather;
 
 
 // I would like to apologize to the Java community for the following code - Lucas
 public class Window implements ActionListener{
     public static WeatherStationClient.DatLoader datFile = new WeatherStationClient.DatLoader("serverip.dat");
-    public static String serverIP;
     static final String title = "WS Client";
 
     // Main frame
@@ -23,7 +23,8 @@ public class Window implements ActionListener{
     public static Box weatherBox = Box.createVerticalBox();
 
     // Controls box
-    Box controlsBox = Box.createVerticalBox();
+    Box controlsBox = Box.createHorizontalBox();
+    Box buttonBox = Box.createVerticalBox();
 
     // Menu Bar components
     JMenuBar menuBar = new JMenuBar();
@@ -37,15 +38,15 @@ public class Window implements ActionListener{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //set frame layout
-        frame.setLayout(new GridLayout());
+        frame.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 
         //Add components to weather box and set layout
-        weatherBox.add(Box.createVerticalStrut(10));
         weatherBox.add(new JLabel("Weather:\n"), BorderLayout.NORTH);
 
         //add components to controls box
-        controlsBox.add(Box.createVerticalStrut(10));
-        controlsBox.add(updateBtn, BorderLayout.NORTH);
+        buttonBox.add(updateBtn);
+        controlsBox.add(buttonBox);
+
 
         // register action listener
         updateBtn.addActionListener(this);
@@ -61,11 +62,13 @@ public class Window implements ActionListener{
         file.add(updateServerIP);
 
         // Add components
-        frame.add(controlsBox, BorderLayout.WEST);
-        frame.add(weatherBox, BorderLayout.WEST);
+        frame.add(controlsBox);
+        frame.add(weatherBox);
         frame.setJMenuBar(menuBar);
 
+        // Configure frame
         frame.setVisible(true);
+        frame.setResizable(false);
         frame.setSize(500, 250);
 
     }
