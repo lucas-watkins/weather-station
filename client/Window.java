@@ -12,12 +12,12 @@ import WeatherStationClient.GetWeather;
 public class Window implements ActionListener{
     public static WeatherStationClient.DatLoader datFile = new WeatherStationClient.DatLoader("serverip.dat");
     static final String title = "WS Client";
-
+    static final String version = "1.0";
     // Main frame
     public static JFrame frame = new JFrame();
 
     // Update button
-    JButton updateBtn = new JButton("Update Weather");
+    public static JButton updateBtn = new JButton("Update Weather");
 
     // Weather Box
     public static Box weatherBox = Box.createVerticalBox();
@@ -75,10 +75,10 @@ public class Window implements ActionListener{
 
     public void actionPerformed(ActionEvent e){
         if (e.getSource().equals(updateBtn)){
-            WeatherStationClient.GetWeather.getWeather();
+            new GetWeather().start();
         }
         if (e.getSource().equals(about)){
-            int option = JOptionPane.showConfirmDialog(null, "Weather Station Client vVersionHere\nWeather Station IP: "+datFile.getContents()+"\nVisit Github Repository?", title, JOptionPane.YES_NO_OPTION);
+            int option = JOptionPane.showConfirmDialog(null, "Weather Station Client v" + version +"\nWeather Station IP: "+datFile.getContents()+"\nVisit Github Repository?", title, JOptionPane.YES_NO_OPTION);
             if (option == 0){
                 try{
                     Desktop.getDesktop().browse(new URI("https://github.com/lucas-watkins/weather-station"));
