@@ -2,8 +2,8 @@ import time
 
 
 def delay(delay: int):
-    ''' Decorator to run task every x seconds in a loop. Think is it time yet to run this task
-     rather than sleep for x seconds then run '''
+    """Decorator to run task every x seconds in a loop. Think is it time yet to run this task
+    rather than sleep for x seconds then run"""
 
     class Wait:
         wait = time.monotonic() + delay
