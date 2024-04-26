@@ -6,7 +6,7 @@ from analogio import AnalogIn
 class Sensor:
     """Sensor class which contains all the code for interacting with sensors aboard the weather station"""
 
-    # variables 
+    # variables
     dht22 = None
     ws_pin = None
 
@@ -21,7 +21,11 @@ class Sensor:
 
     # returns dictionary of all sensor values
     def get_dict(self) -> dict:
-        return {'temp': self.get_temperature(), 'humidity': self.get_humidity(), 'raining': self.get_water_sensor()}
+        return {
+            "temp": self.get_temperature(),
+            "humidity": self.get_humidity(),
+            "raining": self.get_water_sensor(),
+        }
 
     # get temperature from DHT22 tied to GP16 in freedom units 🦅🦅🦅
     def get_temperature(self) -> float:
@@ -34,6 +38,6 @@ class Sensor:
     # get water sensor state
     def get_water_sensor(self) -> bool:
         # if the value is greater than 1000 it's probably raining and this will return true if
-        # this is the case. 
+        # this is the case.
 
         return (lambda: True if self.ws_pin.value > 1000 else False)()
