@@ -34,5 +34,5 @@ while running:
         log()
 
     except KeyboardInterrupt:
-        print(f'\n{Colors.WARN}Stopping Server...{Colors.END}')
+        print(f"\n{Colors.WARN}Stopping Server...{Colors.END}")
         running = False
