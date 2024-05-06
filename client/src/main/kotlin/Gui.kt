@@ -46,7 +46,7 @@ class Gui() : ActionListener {
     }
 
     fun updateWeather(){
-       weatherLabel.text = GetWeather.weather
+       weatherLabel.text = GetWeather.Weather
     }
 
     fun aboutHandler() {
