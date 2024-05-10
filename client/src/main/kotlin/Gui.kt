@@ -5,9 +5,10 @@ import java.awt.FlowLayout
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import javax.swing.*
+import kotlinx.coroutines.*
 
 class Gui() : ActionListener {
-    private val updateButton = JButton("update")
+    private val updateButton = JButton("Update")
     private val weatherLabel = JLabel()
     private val fileMenu = JMenu("File")
     private val aboutItem = JMenuItem("About")
@@ -35,21 +36,27 @@ class Gui() : ActionListener {
         frame.size = Dimension(500, 250)
         frame.isVisible = true
 
+        runBlocking {
+            launch { updateWeather()}
+        }
+
     }
 
     override fun actionPerformed(e: ActionEvent) {
         when (e.source){
             updateButton -> updateWeather()
-            setIpItem -> GetIp.IpEntry()
+            setIpItem -> GetIp.ipEntry()
             aboutItem -> aboutHandler()
         }
     }
 
-    fun updateWeather(){
+    private fun updateWeather(){
+       updateButton.isEnabled = false
        weatherLabel.text = GetWeather.Weather
+       updateButton.isEnabled = true
     }
 
-    fun aboutHandler() {
+    private fun aboutHandler() {
         try {
             JOptionPane.showMessageDialog(
                 null, "IP:\n${GetIp.Ip}\n\nPort:\n${GetIp.Port}", title,
