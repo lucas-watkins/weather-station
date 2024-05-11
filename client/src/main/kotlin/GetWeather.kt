@@ -21,7 +21,7 @@ class GetWeather {
                 }
 
                 if (GetIp.Ip.isBlank()){
-                    GetIp.IpEntry()
+                    GetIp.ipEntry()
                 }
 
                 var foundWeather = ""

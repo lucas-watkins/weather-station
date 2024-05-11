@@ -1,30 +1,38 @@
 package com.github.lucasw.wsclient
 
+import java.awt.Component
 import java.awt.FlowLayout
 import java.io.FileWriter
 import javax.swing.*
 
 
-fun GetIp.Companion.IpEntry(){
+fun GetIp.Companion.ipEntry(){
     val frame = JFrame()
     val box = Box.createVerticalBox()
-    val adrEntry = JTextArea(1, 10)
+    val addrEntry = JTextArea(1, 10)
     val portEntry = JTextArea(1, 10)
     val updateButton = JButton("Submit")
+    val addrLabel = JLabel("Address:")
+    val portLabel = JLabel("Port:")
 
     frame.layout = FlowLayout(FlowLayout.CENTER, 15, 15)
+    addrEntry.lineWrap = true
+    portEntry.lineWrap = true
 
-    box.add(JLabel("Address: "))
-    box.add(adrEntry)
-    box.add(JLabel("Port: "))
-    box.add(portEntry)
+    for(ele in arrayOf(addrLabel, addrEntry, portLabel, portEntry, updateButton)) {
+        box.add(ele)
+        if (ele !is JLabel) {
+            box.add(Box.createVerticalStrut(15))
+        }
+        ele.alignmentX = Component.LEFT_ALIGNMENT
+    }
 
     frame.defaultCloseOperation = JFrame.DISPOSE_ON_CLOSE
 
     updateButton.addActionListener {
         when (it.source) {
-            updateButton -> {writeToFile(arrayOf(adrEntry.text, portEntry.text));
-                frame.dispose(); }
+            updateButton -> {writeToFile(arrayOf(addrEntry.text, portEntry.text))
+                frame.dispose()}
         }
     }
 
@@ -32,6 +40,7 @@ fun GetIp.Companion.IpEntry(){
 
     frame.add(box)
     frame.setSize(300, 200)
+    frame.title = "Set Ip and Port"
     frame.isVisible = true
 }
 
