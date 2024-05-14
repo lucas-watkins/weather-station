@@ -56,10 +56,14 @@ class Gui() : ActionListener {
     private fun updateWeather(){
         updateButton.isEnabled = false
         val weather = GetWeather.Weather
+        var lastI = 0
         weatherBox.removeAll()
         for (i in weather.indices){
             if (i % 50 == 0 || i == weather.lastIndex){
-                weatherBox.add(JLabel(weather.substring(if (i == 0 || i == weather.lastIndex) 0 else (i - 50), i)))
+                if (i != 0) {
+                    weatherBox.add(JLabel(weather.substring(lastI, i + 1)))
+                }
+                lastI = i
             }
         }
         SwingUtilities.updateComponentTreeUI(frame)
