@@ -9,19 +9,22 @@ import kotlinx.coroutines.*
 
 class Gui() : ActionListener {
     private val updateButton = JButton("Update")
-    private val weatherLabel = JLabel()
+    private val weatherBox = Box.createVerticalBox()
+    private val horizontalBox = Box.createHorizontalBox()
     private val fileMenu = JMenu("File")
     private val aboutItem = JMenuItem("About")
     private val setIpItem = JMenuItem("Set IP")
+    private val frame = JFrame()
 
     init {
-        val frame = JFrame()
+
         frame.title = title
 
         frame.layout = FlowLayout(FlowLayout.LEFT, 5, 5)
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-        frame.add(updateButton)
-        frame.add(weatherLabel)
+        horizontalBox.add(updateButton)
+        horizontalBox.add(weatherBox)
+        frame.add(horizontalBox)
 
         val menuBar = JMenuBar()
         fileMenu.add(aboutItem)
@@ -51,15 +54,23 @@ class Gui() : ActionListener {
     }
 
     private fun updateWeather(){
-       updateButton.isEnabled = false
-       weatherLabel.text = GetWeather.Weather
-       updateButton.isEnabled = true
+        updateButton.isEnabled = false
+        val weather = GetWeather.Weather
+        weatherBox.removeAll()
+        for (i in weather.indices){
+            if (i % 50 == 0 || i == weather.lastIndex){
+                weatherBox.add(JLabel(weather.substring(if (i == 0 || i == weather.lastIndex) 0 else (i - 50), i)))
+            }
+        }
+        SwingUtilities.updateComponentTreeUI(frame)
+        updateButton.isEnabled = true
     }
 
     private fun aboutHandler() {
         try {
             JOptionPane.showMessageDialog(
-                null, "IP:\n${GetIp.Ip}\n\nPort:\n${GetIp.Port}", title,
+                null, "IP:\n${GetIp.Ip}\n\nPort:\n${GetIp.Port}\n\nJRE:" +
+                        "\n${System.getProperty("java.vendor.version")}", title,
                 JOptionPane.INFORMATION_MESSAGE
             )
         } catch (e: IndexOutOfBoundsException){
@@ -67,4 +78,5 @@ class Gui() : ActionListener {
                 JOptionPane.INFORMATION_MESSAGE)
         }
     }
+
 }

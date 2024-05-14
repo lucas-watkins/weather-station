@@ -19,7 +19,7 @@ fun GetIp.Companion.ipEntry(){
     addrEntry.lineWrap = true
     portEntry.lineWrap = true
 
-    for(ele in arrayOf(addrLabel, addrEntry, portLabel, portEntry, updateButton)) {
+    for (ele in arrayOf(addrLabel, addrEntry, portLabel, portEntry, updateButton)) {
         box.add(ele)
         if (ele !is JLabel) {
             box.add(Box.createVerticalStrut(15))
