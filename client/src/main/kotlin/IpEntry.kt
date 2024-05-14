@@ -7,6 +7,7 @@ import javax.swing.*
 
 
 fun GetIp.Companion.ipEntry(){
+    var isInfoEntered = false
     val frame = JFrame()
     val box = Box.createVerticalBox()
     val addrEntry = JTextArea(1, 10)
@@ -31,8 +32,11 @@ fun GetIp.Companion.ipEntry(){
 
     updateButton.addActionListener {
         when (it.source) {
-            updateButton -> {writeToFile(arrayOf(addrEntry.text, portEntry.text))
-                frame.dispose()}
+            updateButton -> {
+                isInfoEntered = true
+                writeToFile(arrayOf(addrEntry.text, portEntry.text))
+                frame.dispose()
+            }
         }
     }
 
@@ -42,6 +46,9 @@ fun GetIp.Companion.ipEntry(){
     frame.setSize(300, 200)
     frame.title = "Set Ip and Port"
     frame.isVisible = true
+    while (!isInfoEntered) {
+        Thread.sleep(1000)
+    }
 }
 
 private fun writeToFile(list: Array<String>){

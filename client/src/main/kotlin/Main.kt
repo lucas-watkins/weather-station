@@ -1,6 +1,7 @@
 package com.github.lucasw.wsclient
 
 import java.io.File
+import java.io.FileReader
 
 const val csvFileName = "ip.csv"
 const val title = "WS Client"
@@ -16,6 +17,9 @@ class Main {
         @JvmStatic
         fun main(args: Array<String>) {
             checkIpFile()
+            if (FileReader(csvFileName).readText().isBlank()){
+                GetIp.ipEntry()
+            }
             Gui()
         }
     }
